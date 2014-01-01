@@ -43,7 +43,7 @@ int main()
 {
 	std::vector<int> theDigits(theNumber.size());
 
-	//#pragma omp parallel for
+	#pragma omp parallel for
 	for (int i = 0; i < theNumber.size(); ++i)
 	{
 		int newNum = (int)(theNumber[i] - '0');
