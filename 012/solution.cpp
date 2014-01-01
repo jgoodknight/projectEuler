@@ -28,16 +28,56 @@
 
 #include <omp.h>
 
-const int goalNumberOfDivisors = 5;
+const int goalNumberOfDivisors = 500;
 
+std::list<long> listOfFactorsOfLong(long toBeFactored) {
+	std::list<long> output;
+	for (int possibleFactor = 1; possibleFactor <= std::sqrt(toBeFactored); ++possibleFactor)
+	{
+		if(toBeFactored % possibleFactor == 0) 
+		{
+			output.push_back(possibleFactor);
+			//deal with 1 and numbers which are perfect quares and don't double count those factors
+			if(possibleFactor != toBeFactored / possibleFactor) 
+			{
+				output.push_back(toBeFactored / possibleFactor);
+			}
+		}
+	}
+	return output;
+}
+
+int numberOfFactorsInLong(long toBeFactored) 
+{
+	std::list<long> myFactors = listOfFactorsOfLong(toBeFactored);
+	return myFactors.size();
+}
 
 int main() 
-{
+{	
+	int currentNumberOfFactors = 1;
 
-	std::cout << "\nANSWER: " << 42 <<"\n";
+	long currentNaturalNumber = 1;
+	long currentTriangleNumber = 1;
+
+	while(currentNumberOfFactors < goalNumberOfDivisors) 
+	{
+		currentNaturalNumber = currentNaturalNumber + 1;
+		currentTriangleNumber = currentTriangleNumber + currentNaturalNumber;
+
+		currentNumberOfFactors = numberOfFactorsInLong(currentTriangleNumber);
+	}
+	std::cout << "ANSWER: " << currentTriangleNumber <<"\n";
+	for(long f : listOfFactorsOfLong(currentTriangleNumber)) {
+		std::cout << f << ", ";
+	}
+	std::cout << "\n";
 
 	return 0;
 }
+
+
+
 
 
 
